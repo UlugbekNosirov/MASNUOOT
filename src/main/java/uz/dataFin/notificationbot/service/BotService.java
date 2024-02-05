@@ -50,6 +50,7 @@ public class BotService {
     private final BalanceService balanceService;
     public final MarketService marketService;
     public final FileService fileService;
+    public final Api1CService api1CService;
     public final ProductService productService;
     private final Keyboard keyboard;
     private final UtilService utilService;
@@ -70,7 +71,7 @@ public class BotService {
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(chatId);
         String name = userService.getName(chatId);
-        if (UtilService.containsSpecialCharacters(name)) {
+        if (utilService.containsSpecialCharacters(name)) {
             sendName(chatId);
         }else if (!getPhone(chatId)) {
             sendMessage.setText(utilService.getTextByLanguage(chatId, Constant.REGISTRATION));
@@ -91,6 +92,7 @@ public class BotService {
     }
 
     public void getRole(String chatId){
+        api1CService.saveClient(userService.getByChatId(chatId));
         String role = userService.getRole(chatId);
         switch (role) {
             case "Employee" -> {
@@ -489,12 +491,14 @@ public class BotService {
         String name = userService.getName(chatId);
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(chatId);
-        if (UtilService.containsSpecialCharacters(name)) {
+        if (utilService.containsSpecialCharacters(name)) {
             userService.saveUserName(message, chatId);
         }
         if (!getPhone(chatId)) {
             sendMessage.setText(utilService.getTextByLanguage(chatId, Constant.REGISTRATION));
+            sendMessage.setReplyMarkup(keyboard.createContactMarkup());
             feign.sendMessage(sendMessage);
+            return;
         }
         if (message.getText().equals(utilService.getTextByLanguage(chatId, Constant.AKT_SVERKA))){
             sendStartDate(BotState.GET_START_DATEV2, chatId);

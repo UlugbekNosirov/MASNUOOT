@@ -40,5 +40,5 @@ public interface Constant {
     String TO_BE_CONTINUED = "Жараённи давом эттиришингиз мумкин!/Вы можете продолжить процесс!/Jarayonni davom ettirishingiz mumkin!";
     String MAIN_MENU = "Қуйидаги буйруқлардан бирини танланг.../Выберите одну из команд ниже.../Quyidagi buyruqlardan birini tanlang...";
     String BACK = "🔙Асосий менюга/🔙В главное меню/🔙Asosiy menyuga";
-    String REQUEST_URI = "http://91.219.62.18/MUZAFFARXONMANNOL/hs";
+    String REQUEST_URI = "http://91.219.62.18/MASNUOOT_2024/hs";
 }

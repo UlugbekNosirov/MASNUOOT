@@ -26,6 +26,8 @@ public class WebhookService {
                 String text = message.getText();
                 if (text.equals("/start")) {
                     state = BotState.SEND_PHONE;
+                } else if (utilService.containsSpecialCharacters(message.getFrom().getFirstName()) && state == BotState.SEND_PHONE) {
+                    state = BotState.SAVE_NAME;
                 }else if (text.equals(utilService.getTextByLanguage(chatId, Constant.SETTINGS))){
                     state = BotState.SEND_BTN_SETTING;
                 }else if (text.equals(utilService.getTextByLanguage(chatId, Constant.CHANGE_TYPE_FILE))){
@@ -40,8 +42,6 @@ public class WebhookService {
                     state = BotState.GET_START_DATE;
                 } else if (text.equals(utilService.getTextByLanguage(chatId, Constant.AKT_SVERKA))) {
                     state = BotState.GET_START_DATEV2;
-                }else if (state == BotState.SEND_PHONE){
-                    state = BotState.SAVE_NAME;
                 }else if (UtilService.containsOnlyNumbers(text)){
                     state = BotState.GET_PRODUCT;
                 }else if (state.toString().startsWith("EDIT2")){
